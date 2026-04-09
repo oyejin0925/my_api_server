@@ -1,0 +1,11 @@
+package com.example.my_api_server.service.dto;
+
+//상품 id, 상품명, 재고수량만 변경
+public record ProductUpdateDto(
+        Long productId,
+        String changeProductName,
+        Long changeStock
+
+) {
+
+}
