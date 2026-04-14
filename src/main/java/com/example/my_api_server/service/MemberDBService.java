@@ -37,13 +37,16 @@ public class MemberDBService {
                 .password(password)
                 .build();
 
-        //저장
+        //동기 - 작업이 완료될때까지 기다림 <-> 비동기: 작업이 완료될 때까지 기다리지않음 -> 알림 전송하는 작업이 오래걸리는 경우 -> 비동기적으로 처리하는게 좋음
+
+        //동기 & 블로킹
         Member savedMember = memberDBRepo.save(member);
 
         //sent noti
 
         //DB에 commit이 정상적으로 잘 되었을 때 메일 알림 발송하기 (실패 시 재시도 n번)
         //기능 안정성 + 예외 상황 + 알림이 몇초정도 안감 -> 전체 총 서버의 응답시간 단축?
+        //비동기 & 논블로킹(Async때문)
         publisher.publishEvent(new MemberSignUpEvent(savedMember.getId(), savedMember.getEmail()));
 //        sendNotification();
 //        memberPointService.changeAllUserData();
